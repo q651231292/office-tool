@@ -2,11 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="demo"/>
+	<classpathentry kind="src" path="resource"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="resource/poi-3.16.jar"/>
-	<classpathentry kind="lib" path="resource/poi-ooxml-3.16.jar"/>
-	<classpathentry kind="lib" path="resource/poi-ooxml-schemas-3.16.jar"/>
-	<classpathentry kind="lib" path="resource/xmlbeans-2.6.0.jar"/>
-	<classpathentry kind="lib" path="resource/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="jars/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="jars/poi-3.16.jar"/>
+	<classpathentry kind="lib" path="jars/poi-ooxml-3.16.jar"/>
+	<classpathentry kind="lib" path="jars/poi-ooxml-schemas-3.16.jar"/>
+	<classpathentry kind="lib" path="jars/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
