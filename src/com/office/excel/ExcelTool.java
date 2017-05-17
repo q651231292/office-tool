@@ -81,6 +81,12 @@ public class ExcelTool<T> {
 		}
 	}
 
+	/**
+	 * excel转成List<T>
+	 * @param filePath 文件路径
+	 * @param cls 实体类
+	 * @return 封装号的实体类集合
+	 */
 	public List<T> excelToList(String filePath, Class<T> cls) {
 		List result = new ArrayList();
 		try {
