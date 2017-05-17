@@ -11,6 +11,6 @@ public class OutExcel {
 		List<Emp> emps = new ArrayList<>();
 		emps.add(new Emp("001", "刘备"));
 		emps.add(new Emp("002", "曹操"));
-		new ExcelTool<Emp>().outExcel("d:/", "a.xlsx", emps, Emp.class);
+		new ExcelTool<Emp>().outExcel("c:/", "a.xlsx", emps, Emp.class);
 	}
 }
