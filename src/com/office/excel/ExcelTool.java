@@ -44,41 +44,44 @@ public class ExcelTool<T> {
 	 */
 	public void outExcel(String filePath, String fileName, List<T> list, Class<T> cls) {
 		Workbook wb = createWorkbook(fileName);
-		Sheet sheet = wb.createSheet();
-		Row row = sheet.createRow(0);
-		Field[] fields = cls.getDeclaredFields();
-		Cell cell = null;
-		for (int i = 0; i < fields.length; i++) {
-			cell = row.createCell(i);
-			cell.setCellValue(fields[i].getDeclaredAnnotation(ExcelField.class).title());
-		}
-		for (int i = 0; i < list.size(); i++) {
-			row = sheet.createRow(i + 1);
-			T t = list.get(i);
-			for (int j = 0; j < fields.length; j++) {
-				cell = row.createCell(j);
-				Object value;
+		if(wb!=null){
+			Sheet sheet = wb.createSheet();
+			Row row = sheet.createRow(0);
+			Field[] fields = cls.getDeclaredFields();
+			Cell cell = null;
+			for (int i = 0; i < fields.length; i++) {
+				cell = row.createCell(i);
+				cell.setCellValue(fields[i].getDeclaredAnnotation(ExcelField.class).title());
+			}
+			for (int i = 0; i < list.size(); i++) {
+				row = sheet.createRow(i + 1);
+				T t = list.get(i);
+				for (int j = 0; j < fields.length; j++) {
+					cell = row.createCell(j);
+					Object value;
+					try {
+						fields[j].setAccessible(true);
+						value = fields[j].get(t);
+						cell = setCellValue(cell, value);
+					} catch (IllegalArgumentException | IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			try {
+				wb.write(new FileOutputStream(filePath + fileName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
 				try {
-					fields[j].setAccessible(true);
-					value = fields[j].get(t);
-					cell = setCellValue(cell, value);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
+					if (wb != null)
+						wb.close();
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		try {
-			wb.write(new FileOutputStream(filePath + fileName));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (wb != null)
-					wb.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		
 	}
 
 	/**
@@ -88,7 +91,7 @@ public class ExcelTool<T> {
 	 * @return 封装号的实体类集合
 	 */
 	public List<T> excelToList(String filePath, Class<T> cls) {
-		List result = new ArrayList();
+		List result = new ArrayList<>();
 		try {
 			Workbook wb = new XSSFWorkbook(filePath);
 			int sheetLength = wb.getNumberOfSheets();
@@ -111,7 +114,6 @@ public class ExcelTool<T> {
 							Field field = fields[l];
 							ExcelField ef = field.getDeclaredAnnotation(ExcelField.class);
 							String anTitle = ef.title();
-							// 如何根据注解,动态调用set方法?
 							if (titleCellValue.equals(anTitle)) {
 								Field[] declaredFields = Emp.class.getDeclaredFields();
 								for (Field f : declaredFields) {
